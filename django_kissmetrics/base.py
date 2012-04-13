@@ -1,3 +1,5 @@
+import urllib
+
 from KISSmetrics import KM
 
 from django.contrib.auth.models import User
@@ -109,7 +111,10 @@ def get_identity_from_cookie(request):
     """
     Attempts to find the KISS identity from the COOKIEs.
     """
-    return request.COOKIES.get('km_ni', '') or request.COOKIES.get('km_ai', '')
+    identity = request.COOKIES.get('km_ni', '') or request.COOKIES.get('km_ai', '')
+    if identity is not None:
+        identity = urllib.unquote(identity)
+    return identity
 
 def get_identity_and_user(user_or_request):
     """
