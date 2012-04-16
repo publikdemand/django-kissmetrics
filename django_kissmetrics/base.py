@@ -123,7 +123,7 @@ def get_identity_and_user(user_or_request):
     user = None
 
     if isinstance(user_or_request, HttpRequest):
-        if user_or_request.user.is_authenticated():
+        if getattr(user_or_request, 'user', None) and user_or_request.user.is_authenticated():
             user = user_or_request.user
             identity = user.id
         else:
